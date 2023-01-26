@@ -1,5 +1,6 @@
 const express = require("express");
 require("colors");
+const cors = require("cors");
 
 require("dotenv").config();
 const connectDB = require("./dbinit");
@@ -7,6 +8,7 @@ connectDB();
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const articleRoutes = require("./routes/articles"); // ask reagan about Namings***************************
 
