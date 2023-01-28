@@ -1,18 +1,20 @@
-const express = require("express");
-require("colors");
-const cors = require("cors");
-
-require("dotenv").config();
-const connectDB = require("./dbinit");
-connectDB();
-
-const app = express();
-app.use(express.json());
-app.use(cors());
+const express = require("express"); // express
+require("colors"); // Colors
+const cors = require("cors"); //  Cors
 
 const articleRoutes = require("./routes/articles"); // ask reagan about Namings***************************
 
-const PORT = process.env.PORT || 8080;
+require("dotenv").config(); // dot env File
+const connectDB = require("./dbinit"); // Connecting to Database
+connectDB();
+
+const app = express(); // assigning Express to App
+app.use(express.json());
+app.use(cors());
+
+const PORT = process.env.PORT || 8080; // Asigning port
+
+const userRoutes = require("./routes/user");
 
 app.use((req, res, next) => {
   console.log(req.method);
@@ -22,6 +24,8 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
   res.send("Welcome to my API");
 });
+
+app.use("/user", userRoutes);
 
 app.use("/articles", articleRoutes); // confusion Ask Reagan about This ********************************
 
