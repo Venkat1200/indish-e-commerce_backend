@@ -2,18 +2,46 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-});
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
 
+    isAdmin: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    cart: {
+      type: Object,
+      default: {
+        total: 0,
+        count: 0,
+      },
+    },
+
+    notifications: {
+      type: Array,
+      default: [],
+    },
+
+    orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
+  },
+  { minimize: false }
+);
+/// Ask Reagan About validators
+
+/////
 // create a custom static method
 userSchema.statics.signup = async function (email, password) {
   // check if email exists in DB

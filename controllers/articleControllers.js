@@ -21,6 +21,8 @@ const getOneArticle = async (req, res) => {
   }
 };
 
+// Creating one Article
+
 const createArticle = async (req, res) => {
   try {
     const { description, price, category, title, image } = req.body;
@@ -30,10 +32,47 @@ const createArticle = async (req, res) => {
       category,
       title,
       image,
-    }); /// ASk REAGAN ABOUT THIS
+    });
+    /// ASk REAGAN ABOUT THIS
     res.status(201).json(article);
   } catch (error) {
     res.status(501).json({ error: error.message });
   }
 };
-module.exports = { getAllArticles, getOneArticle, createArticle };
+
+// Update one Article
+
+const updateArticle = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const { description, price, category, title, image } = req.body;
+    const article = await Articles.findByIdAndUpdate(id, {
+      description,
+      price,
+      category,
+      title,
+      image,
+    });
+    res.status(201).json(article);
+  } catch (error) {
+    res.status(501).json({ error: error.message });
+  }
+};
+
+const deleteArticle = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const article = await Articles.findByIdAndDelete({ id });
+    res.status(201).json(article);
+  } catch (error) {
+    res.status(501).json({ error: error.message });
+  }
+};
+module.exports = {
+  getAllArticles,
+  getOneArticle,
+  createArticle,
+  updateArticle,
+  deleteArticle,
+};
