@@ -4,7 +4,7 @@ require("colors"); // Colors
 const cors = require("cors"); //  Cors
 
 const articleRoutes = require("./routes/articlesRoutes"); // ask reagan about Namings***************************
-const imageRoutes = require("./routes/imageRoutes");
+// const imageRoutes = require("./routes/imageRoutes");
 
 const connectDB = require("./dbinit"); // Connecting to Database
 connectDB();
@@ -28,7 +28,7 @@ app.get("/", (req, res) => {
 
 app.use("/users", userRoutes);
 
-app.use("/images", imageRoutes);
+// app.use("/images", imageRoutes);
 
 app.use("/articles", articleRoutes); // confusion Ask Reagan about This ********************************
 
