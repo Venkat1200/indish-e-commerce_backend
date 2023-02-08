@@ -2,8 +2,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const ImageSchema = new Schema({
   url: { type: String },
-  description: { type: String },
-  title: { type: String },
+  articleTitle: { type: String },
   category: { type: String },
   price: { type: Number },
 });

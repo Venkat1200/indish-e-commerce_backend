@@ -28,8 +28,6 @@ app.get("/", (req, res) => {
 
 app.use("/users", userRoutes);
 
-// app.use("/images", imageRoutes);
-
 app.use("/articles", articleRoutes); // confusion Ask Reagan about This ********************************
 
 app.listen(PORT, () => {

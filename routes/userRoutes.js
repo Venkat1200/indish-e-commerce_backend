@@ -15,6 +15,6 @@ app.post("/login", loginUser);
 
 app.post("/signup", signupUser);
 
-app.get("/users", getUser);
+app.get("/", getUser);
 
 module.exports = app;

@@ -1,11 +1,21 @@
 // const mongoose = require("mongoose");
 
-const { default: mongoose } = require("mongoose");
 const Article = require("../Model/Article"); // 1. Ask Reagan is it Articles or Kitchen???
 
 const getAllArticles = async (req, res) => {
   try {
     const articles = await Article.find();
+    res.status(200).json(articles);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getByCategory = async (req, res) => {
+  try {
+    const { category } = req.query;
+    console.log("REQ QUERY", category);
+    const articles = await Article.find({ category: category });
     res.status(200).json(articles);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -25,20 +35,18 @@ const getOneArticle = async (req, res) => {
 // Creating one Article
 
 const createArticle = async (req, res) => {
-  const { title, price, category, description } = req.body;
+  const { articleTitle, price, category } = req.body;
   try {
     if (req.file && req.file.path) {
-      const image = new Article({
-        description,
+      const article = new Article({
         url: req.file.path,
-        title,
+        articleTitle,
         category,
         price,
       });
-      await image.save();
-      return res.status(200).json({ msg: "image successfully saved" });
+      await article.save();
+      return res.status(200).json(article);
     } else {
-      console.log(req.file);
       return res.status(422).json({ error: "invalid" });
     }
   } catch (error) {
@@ -88,4 +96,5 @@ module.exports = {
   createArticle,
   updateArticle,
   deleteArticle,
+  getByCategory,
 };

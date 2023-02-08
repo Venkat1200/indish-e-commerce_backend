@@ -2,43 +2,26 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
 
-const userSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
+const userSchema = new mongoose.Schema({
+  // Firstname: {
+  //   type: String,
+  //   required: true,
+  // },
+  // Lastname: {
+  //   type: String,
+  //   required: true,
+  // },
 
-    isAdmin: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-    cart: {
-      type: Object,
-      default: {
-        total: 0,
-        count: 0,
-      },
-    },
-
-    notifications: {
-      type: Array,
-      default: [],
-    },
-
-    orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
+  email: {
+    type: String,
+    required: true,
+    unique: true,
   },
-  { minimize: false }
-);
+  password: {
+    type: String,
+    required: true,
+  },
+});
 /// Ask Reagan About validators
 
 /////
@@ -62,6 +45,15 @@ userSchema.statics.signup = async function (email, password) {
       "Make sure to use at least 8 characters, one upper case letter, a number and a special character"
     );
   }
+
+  // if (!validator.isString(Firstname)) {
+  //   throw Error("Need Firstname ");
+  // }
+
+  // if (!validator.isString(Lastname)) {
+  //   throw Error("Need Lastname ");
+  // }
+
   // salt the password
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
@@ -87,8 +79,10 @@ userSchema.statics.login = async function (email, password) {
   const match = await bcrypt.compare(password, user.password);
 
   if (!match) {
-    throw Error("Incoorect Password");
+    throw Error("Incorrect Password");
   }
+
+  return user;
 };
 
 module.exports = mongoose.model("User", userSchema);

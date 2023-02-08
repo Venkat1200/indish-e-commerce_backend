@@ -1,6 +1,5 @@
 const User = require("../Model/User");
 const jwt = require("jsonwebtoken");
-const { response } = require("express");
 
 const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "10h" });
@@ -15,7 +14,7 @@ const loginUser = async (req, res) => {
     // Create a Token
 
     const token = createToken(user._id);
-    response.status(200).json({ email, token });
+    res.status(200).json({ email, token });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -30,7 +29,7 @@ const signupUser = async (req, res) => {
   try {
     const user = await User.signup(email, password);
 
-    const token = createToken(user.id);
+    const token = createToken(user._id);
     res.status(200).json({ email, token });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -45,5 +44,8 @@ const getUser = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
+// delete User
+//Update User
 
 module.exports = { loginUser, signupUser, getUser };
